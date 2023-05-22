@@ -1,0 +1,15 @@
+{
+  "name": "invigram",
+  "version": "1.0.0",
+  "description": "View instagram stories anonymously",
+  "main": "index.js",
+  "scripts": {
+    "build": "yarn tsc index.ts"
+  },
+  "author": "Dale Larroder",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chrome": "^0.0.236",
+    "typescript": "^5.0.4"
+  }
+}
