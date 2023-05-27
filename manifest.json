@@ -23,6 +23,6 @@
 	},
 	"permissions": [ "https://*.instagram.com/*", "webRequest", "webRequestBlocking" ],
 	"background": {
-		"scripts": ["./index.js"]
+		"scripts": ["./dist/index.js"]
 	}
 }
