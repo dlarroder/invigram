@@ -16,12 +16,19 @@ var magic;
             text: isActive ? 'On' : 'Off',
         });
     });
-    chrome.webRequest.onBeforeRequest.addListener(function () { return ({
-        cancel: isActive,
-    }); }, {
+    chrome.webRequest.onBeforeRequest.addListener(function (details) {
+        if (details && details.requestBody && details.requestBody.formData) {
+            var formData = details.requestBody.formData;
+            var statusBlocking = formData.fb_api_req_friendly_name.includes('PolarisAPIReelSeenMutation');
+            return { cancel: isActive && statusBlocking };
+        }
+        else {
+            return { cancel: false };
+        }
+    }, {
         urls: [
             '*://*.instagram.com/api/v1/stories/reel/seen*',
             '*://*.instagram.com/api/graphql*',
         ],
-    }, ['blocking']);
+    }, ['blocking', 'requestBody']);
 })(magic || (magic = {}));
