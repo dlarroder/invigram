@@ -22,15 +22,27 @@ namespace magic {
   });
 
   chrome.webRequest.onBeforeRequest.addListener(
-    () => ({
-      cancel: isActive,
-    }),
+    (details) => {
+      if (details && details.requestBody && details.requestBody.formData) {
+        const {
+          requestBody: { formData },
+        } = details;
+
+        const statusBlocking = formData.fb_api_req_friendly_name.includes(
+          'PolarisAPIReelSeenMutation'
+        );
+
+        return { cancel: isActive && statusBlocking };
+      } else {
+        return { cancel: false };
+      }
+    },
     {
       urls: [
         '*://*.instagram.com/api/v1/stories/reel/seen*',
         '*://*.instagram.com/api/graphql*',
       ],
     },
-    ['blocking']
+    ['blocking', 'requestBody']
   );
 }
