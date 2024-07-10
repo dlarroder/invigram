@@ -22,7 +22,8 @@ var magic;
       const {
         requestBody: { formData }
       } = details;
-      const statusBlocking = formData.fb_api_req_friendly_name.includes("PolarisAPIReelSeenMutation");
+      const variables = JSON.parse(formData.variables[0]);
+      const statusBlocking = `${formData.fb_api_req_friendly_name}`.includes("Seen") && `${formData.fb_api_req_friendly_name}`.includes("Polaris") && `${formData.fb_api_req_friendly_name}`.includes("Mutation") && ("viewSeenAt" in variables);
       return { cancel: isActive && statusBlocking };
     } else {
       return { cancel: false };
@@ -30,7 +31,8 @@ var magic;
   }, {
     urls: [
       "*://*.instagram.com/api/v1/stories/reel/seen*",
-      "*://*.instagram.com/api/graphql*"
+      "*://*.instagram.com/api/graphql*",
+      "*://*.instagram.com/graphql/query*"
     ]
   }, ["blocking", "requestBody"]);
 })(magic || (magic = {}));
