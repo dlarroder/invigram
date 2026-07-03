@@ -4,7 +4,7 @@
   "description": "View instagram stories anonymously",
   "main": "index.ts",
   "scripts": {
-    "build": "bun build index.ts --outdir dist"
+    "build": "bun build src/sw.ts src/content.ts --outdir dist"
   },
   "author": "Dale Larroder",
   "license": "ISC",
