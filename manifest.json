@@ -1,5 +1,5 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "invigram",
 	"short_name": "invigram",
 	"description": "View instagram stories anonymously",
@@ -13,16 +13,31 @@
       "256": "icons/256.png"
 	},
 
-	"browser_action": {
+	"action": {
 		"default_icon": {
-		"16": "icons/16.png",
-		"32": "icons/32.png",
-		"48": "icons/48.png"
+			"16": "icons/16.png",
+			"32": "icons/32.png",
+			"48": "icons/48.png"
 		},
-	"default_title": "Toggle On/Off"
+		"default_title": "Toggle On/Off"
 	},
-	"permissions": [ "https://*.instagram.com/*", "webRequest", "webRequestBlocking" ],
 	"background": {
-		"scripts": ["./dist/index.js"]
-	}
+		"service_worker": "dist/sw.js",
+		"type": "module"
+	},
+	"permissions": [ "scripting", "tabs" ],
+	"host_permissions": [ "https://*.instagram.com/*" ],
+	"content_scripts": [
+		{
+			"matches": ["https://*.instagram.com/*"],
+			"js": ["dist/content.js"],
+			"run_at": "document_start"
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": ["icons/*"],
+			"matches": ["<all_urls>"]
+		}
+	]
 }
